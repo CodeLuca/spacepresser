@@ -23,6 +23,7 @@
   <h1>Starting in: <div style="display: inline;" id="time">3</div></h1>
 </div>
 <div id="ingame" style="display: none;"><h1>spaces: <div style="display: inline;" id="score">0</div></div>
+<div id="score" style="display: none;"><h1>You pressed the spacebar: <div style="display: inline;" id="finalScore"></div> for 5 seconds. That's 5 seconds of your life you will never get back.<br><br>Press space to get back to home.</div>
 <script type="text/javascript">
 var score = 0,
 state = 'waiting';
@@ -36,6 +37,10 @@ window.addEventListener("keyup", function (event) {
       } else if (state == 'ingame') {
         score++;
         $('#score').text(score);
+      } else if (state = 'finalScore') {
+        $('#score').fadeOut(1);
+        $('#waiting').fadeIn(1);
+        state = 'waiting';
       }
       event.preventDefault();
     }
@@ -43,10 +48,10 @@ window.addEventListener("keyup", function (event) {
 
 function start() {
   window.setTimeout(function() {
-    alert("Times up! Score: " + score);
-    $('#waiting').fadeIn(1);
+    $('#finalScore').text(score);
+    $('#score').fadeIn(1);
     $('#ingame').fadeOut(1);
-    state = 'waiting';
+    state = 'finalScore';
     score = 0;
   }, 5000);
 }
