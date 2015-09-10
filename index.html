@@ -18,25 +18,21 @@
   <h1 style="">Spacebar Tapper</h1>
   <p>You have 5 seconds to press the spacebar as many times as you can.
   <br>Press Space to Start!</p>
-
 </div>
-<div id="ingame" style="display: none;">spaces: <div style="display: inline;" id="score">0</div></div>
+<div id="starting" style="display: none;">
+  <h1>Starting in: <div style="display: inline;" id="time">3</div></h1>
+</div>
+<div id="ingame" style="display: none;"><h1>spaces: <div style="display: inline;" id="score">0</div></div>
 <script type="text/javascript">
 var score = 0,
 state = 'waiting';
 window.addEventListener("keyup", function (event) {
     if (event.keyCode == '0x20') {
       if(state == 'waiting') {
-        $('#waiting').fadeOut();
-        $('#ingame').fadeIn();
-        state = 'ingame';
-        window.setTimeout(function() {
-          alert("Times up! Score: " + score);
-          $('#waiting').fadeIn();
-          $('#ingame').fadeOut();
-          state = 'waiting';
-          score = 0;
-        }, 5000);
+        $('#waiting').fadeOut(1);
+        $('#starting').fadeIn(1);
+        state = 'starting';
+        starting();
       } else if (state == 'ingame') {
         score++;
         $('#score').text(score);
@@ -44,6 +40,35 @@ window.addEventListener("keyup", function (event) {
       event.preventDefault();
     }
   }, true);
+
+function start() {
+  window.setTimeout(function() {
+    alert("Times up! Score: " + score);
+    $('#waiting').fadeIn(1);
+    $('#ingame').fadeOut(1);
+    state = 'waiting';
+    score = 0;
+  }, 5000);
+}
+
+function starting() {
+  $('#time').text('3');
+  window.setTimeout(function(){
+    $('#time').text('2');
+  }, 1000);
+  window.setTimeout(function(){
+    $('#time').text('1');
+  }, 2000);
+  window.setTimeout(function(){
+    state = 'ingame';
+    $('#starting').fadeOut(1);
+    $('#ingame').fadeIn(1);
+    start();
+  }, 3000);
+  function change(amount) {
+    $('#time').text(amount);
+  }
+}
 </script>
 </body>
 </html>
